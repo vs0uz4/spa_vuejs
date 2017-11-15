@@ -1,4 +1,4 @@
-# spa_vuejs
+# spa_vuejs (work in progress)
 Single Page Aplication com Vue.js em Ambiente Dockerizado
 
 > Este projeto foi desenvolvido durante o acompanhamento do curso de SPA com Vue.js no site da [Edukee](http://www.treinatom.com.br/pt/edukee/detalhes-do-evento/190edc6b7593e3081a858f55652abd92a9d07353).
