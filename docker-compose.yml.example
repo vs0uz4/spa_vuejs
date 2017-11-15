@@ -1,0 +1,40 @@
+version: '2'
+
+volumes:
+  sandbox-config:
+    driver: local
+
+  sandbox-cache:
+    driver: local
+
+  sandbox-local:
+    driver: local
+
+  sandbox-yarn:
+    driver: local
+
+  sandbox-npm:
+    driver: local
+
+services:
+  dev:
+    image: ambientum/node:8
+    container_name: sandbox-dev
+    command: npm run dev
+    volumes:
+      - .:/var/www/app
+      - sandbox-config:/home/ambientum/.config
+      - sandbox-cache:/home/ambientum/.cache
+      - sandbox-local:/home/ambientum/.local
+      - sandbox-yarn:/home/ambientum/.yarn
+      - sandbox-npm:/home/ambientum/.npm
+    ports:
+      - "8080:8080"
+
+  production-server:
+    image: nginx:stable-alpine
+    container_name: sandbox-server
+    volumes:
+      - ./dist:/usr/share/nginx/html
+    ports:
+      - "9090:80"
