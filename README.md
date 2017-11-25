@@ -4,11 +4,11 @@ Single Page Aplication com Vue.js em Ambiente Dockerizado
 > Este projeto foi desenvolvido durante o acompanhamento do curso de SPA com Vue.js no site da [Edukee](http://www.treinatom.com.br/pt/edukee/detalhes-do-evento/190edc6b7593e3081a858f55652abd92a9d07353).
 
 ## Sobre o Curso
-TL;DR 
+TL;DR
 
-O objetivo do curso é habilitar o aluno a desenvolver uma single page application com Vue.js, Vuex e Webpack. 
+O objetivo do curso é habilitar o aluno a desenvolver uma single page application com Vue.js, Vuex e Webpack.
 
-Durante o curso os seguintes conceitos serão abordados e perguntas serão respondidas: 
+Durante o curso os seguintes conceitos serão abordados e perguntas serão respondidas:
 - Por que escolher o Vue.js;
 - Ferramentas necessárias (Node.js, npm/yarn, Webpack, vue-cli);
 - Por que precisamos de dois projetos separados (Web Service e SPA);
@@ -42,7 +42,7 @@ Espera-se que o aluno já tenha o conhecimento prévio de `Javascript` e do ambi
 - JSON Web Tokens - **[JWT](https://www.youtube.com/watch?v=k3KfK0ZS_FY&t=716s)**;
 - Webservice RESTful com Node.js, Restify e MySQL - **[API](https://www.youtube.com/playlist?list=PLFJmwzuHdBRTBbkyH0gATtDhj6ikOIkMy)**
 
-> Cabe resaltar que este repositório tem por finalidade eliminar a obrigatoriedade de preparação de todo um ambiente de desenvolvimento `node.js`. A única obrigatoriedade para executar o projeto, será a de ter minimamente instalados e devidamente configurados em sua máquina os serviços/ferramentas `docker` e `docker-compose`. 
+> Cabe resaltar que este repositório tem por finalidade eliminar a obrigatoriedade de preparação de todo um ambiente de desenvolvimento `node.js`. A única obrigatoriedade para executar o projeto, será a de ter minimamente instalados e devidamente configurados em sua máquina os serviços/ferramentas `docker` e `docker-compose`.
 
 ## Adaptações
 Como tenho preferência por trabalhar em ambientes dockerizados, fiz algumas adaptações no projeto, implementando `containers` docker, para rodar a aplicação. Para isto, fiz uso do **[Ambientum](https://github.com/codecasts/ambientum)**.
@@ -76,7 +76,7 @@ git clone git@github.com:vs0uz4/spa_vuejs.git
 cd spa_vuejs
 ```
 
-2. Faça uma cópia do `docker-compose.yaml.example` para um novo arquivo com nome de `docker-compose.yaml`, abra em um editor de sua preferência e faça a troca de toda ocorrência de `sandbox` para algo que referêncie melhor o projeto, como por exemplo, `spavuejs`. 
+2. Faça uma cópia do `docker-compose.yaml.example` para um novo arquivo com nome de `docker-compose.yaml`, abra em um editor de sua preferência e faça a troca de toda ocorrência de `sandbox` para algo que referêncie melhor o projeto, como por exemplo, `spavuejs`.
 
 ```
 cp docker-compose.yaml.example docker-compose.yaml
@@ -134,7 +134,27 @@ docker-compose run dev npm install -g npm
 docker-compose run dev npm install
 ```
 
-4. Inicialize os containers, disponibilizando a aplicação em `localhost:8080`.
+4. Edite o arquivo de configuração base dos ambientes do projeto em `config/index.js` e altere o valor de `host` de *localhost* para *0.0.0.0*.
+
+Abaixo segue um exemplo de como deve ficar o arquivo.
+```
+module.exports = {
+  dev: {
+
+    // Paths
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/',
+    proxyTable: {},
+
+    // Various Dev Server settings
+    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    port: 8080, // can be overwritten by process.env.HOST, if port is in use, a free one will be determined
+    autoOpenBrowser: false,
+    ...
+```
+> Caso esta alteração não seja feita, e seja mantido o `host` como *localhost*, não será possível acessar a aplicação através do browser, pois receberemos um erro de `ERR_CONNECTION_RESET` devido estarmos trabalhando dentro de um ambiente dockerizado.
+
+5. Inicialize os containers, disponibilizando a aplicação em `localhost:8080`.
 
 ```
 docker-compose up
