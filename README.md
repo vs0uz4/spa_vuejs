@@ -134,7 +134,7 @@ docker-compose run dev npm install -g npm
 docker-compose run dev npm install
 ```
 
-4. Edite o arquivo de configuração base dos ambientes do projeto em `config/index.js` e altere o valor de `host` de *localhost* para *0.0.0.0*.
+4. Edite o arquivo de configuração base dos ambientes do projeto em `config/index.js` e altere o valor de `host` de **localhost** para **0.0.0.0**.
 
 Abaixo segue um exemplo de como deve ficar o arquivo.
 ```
@@ -152,7 +152,7 @@ module.exports = {
     autoOpenBrowser: false,
     ...
 ```
-> Caso esta alteração não seja feita, e seja mantido o `host` como *localhost*, não será possível acessar a aplicação através do browser, pois receberemos um erro de `ERR_CONNECTION_RESET` devido estarmos trabalhando dentro de um ambiente dockerizado.
+> Caso esta alteração não seja feita, e seja mantido o `host` como **localhost**, não será possível acessar a aplicação através do browser, pois receberemos um erro de `ERR_CONNECTION_RESET` devido estarmos trabalhando dentro de um ambiente dockerizado.
 
 5. Inicialize os containers, disponibilizando a aplicação em `localhost:8080`.
 
