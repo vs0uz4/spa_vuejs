@@ -1,6 +1,25 @@
+<script>
+  import localforage from 'localforage'
+
+  export default {
+    computed: {
+      shouldDisplayNavigation () {
+        return this.$route.name !== 'auth.index'
+      }
+    },
+    methods: {
+      singoff () {
+        localforage.removeItem('token').then(() => {
+          this.$router.push({ name: 'auth.index' })
+        })
+      }
+    }
+  }
+</script>
+
 <template>
   <div>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" v-show="shouldDisplayNavigation">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -23,7 +42,7 @@
             <li><router-link :to="{ name: 'users.index' }">Usuários</router-link></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Sair</a></li>
+            <li><a href="#" @click.prevent="singoff">Sair</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
