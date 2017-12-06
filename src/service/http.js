@@ -2,7 +2,7 @@ import axios from 'axios'
 import localforage from 'localforage'
 
 const http = axios.create({
-  baseURL: 'http://localhost:3456'
+  baseURL: process.env.API_URL
 })
 
 const interceptRequest = async (config) => {
