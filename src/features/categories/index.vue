@@ -1,6 +1,5 @@
 <script>
-  import axios from 'axios'
-  import localforage from 'localforage'
+  import http from '@/service/http'
 
   export default {
     name: 'Categories',
@@ -10,22 +9,10 @@
       }
     },
     async mounted () {
-      const url = 'http://localhost:3456/categoria'
-      const token = await localforage.getItem('token')
+      const response = await http.get('/categoria')
 
-      axios.defaults.headers.common['x-access-token'] = token
-      axios.get(url)
-        .then(this.successHandler)
-        .catch(this.errorHandler)
-    },
-    methods: {
-      successHandler (res) {
-        if (res != null) {
-          this.list = res.data.categories
-        }
-      },
-      errorHandler (error) {
-        console.log(error, error.message)
+      if (response != null) {
+        this.list = response.data.categories
       }
     }
   }
