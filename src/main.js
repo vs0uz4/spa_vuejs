@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import TheContainer from './the-container'
 import router from './router'
-
-Vue.config.productionTip = false
+import eventBus from './plugins/event-bus'
 
 window.$ = window.jQuery = require('jquery')
 require('bootstrap-sass')
+
+Vue.config.productionTip = false
+Vue.use(eventBus)
 
 /* eslint-disable no-new */
 new Vue({
