@@ -1,5 +1,5 @@
 <script>
-  import axios from 'axios'
+  import http from '@/service/http'
   import localforage from 'localforage'
 
   export default {
@@ -15,9 +15,7 @@
       async singin () {
         try {
           const { email, password } = this
-          const payload = { email, password }
-          const url = 'http://localhost:3456/autenticacao'
-          const response = await axios.post(url, payload)
+          const response = await http.post('/autenticacao', { email, password })
           const { token } = response.data
 
           localforage.setItem('token', token).then(() => {
