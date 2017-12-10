@@ -32,6 +32,28 @@
         }
 
         this.list.unshift(category)
+      },
+      askRemove (category) {
+        const msg = `Tem Certeza que Deseja Remover ${category.name}?`
+        const confirm = window.confirm(msg)
+
+        if (confirm) {
+          this.doRemove(category.id)
+        }
+      },
+      async doRemove (id) {
+        const response = await http.delete(`/categoria/${id}`)
+        const { message } = response.data
+        const index = findIndex(this.list, { id })
+
+        if (index > -1) {
+          this.list.splice(index, 1)
+        }
+
+        this.$bus.$emit('display-alert', {
+          type: 'success',
+          message: message
+        })
       }
     },
 
@@ -67,7 +89,7 @@
             <h3>{{ category.name }}</h3>
             <p class="text-right">
               <router-link :to="{ name: 'categories.form', params: { id: category.id } }" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</router-link>
-              <a href="#" class="btn btn-default btn-xs" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Excluir</a>
+              <a @click.prevent="askRemove(category)" href="#" class="btn btn-default btn-xs" role="button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Excluir</a>
             </p>
           </div>
         </div>
