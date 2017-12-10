@@ -1,5 +1,6 @@
 <script>
   import http from '@/service/http'
+  import { required } from 'vuelidate/lib/validators'
 
   export default {
     name: 'Form',
@@ -8,6 +9,14 @@
         category: {
           id: 0,
           name: ''
+        }
+      }
+    },
+
+    validations: {
+      category: {
+        name: {
+          required
         }
       }
     },
@@ -34,6 +43,10 @@
         }
       },
       async submit () {
+        if (!this.isWholeModelValid) {
+          return false
+        }
+
         const verb = this.isNew ? 'post' : 'put'
         const { category } = this
         const response = await http[verb]('/categoria', category)
@@ -53,6 +66,12 @@
     computed: {
       isNew () {
         return this.category.id === 0
+      },
+      isNameInvalid () {
+        return this.$v.category.name.$invalid
+      },
+      isWholeModelValid () {
+        return !this.$v.$invalid
       }
     }
   }
@@ -60,12 +79,12 @@
 
 <template>
   <form @submit.prevent="submit" class="well">
-    <div class="form-group">
+    <div class="form-group" :class="{ 'has-error': isNameInvalid }">
       <label class="control-label">Nome</label>
       <input v-model="category.name" class="form-control" type="text">
     </div>
     <div class="text-right">
-      <button class="btn btn-primary btn-xs" type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Salvar</button>
+      <button class="btn btn-primary btn-xs" type="submit" :disabled="!isWholeModelValid"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Salvar</button>
     </div>
   </form>
 </template>
