@@ -6,6 +6,6 @@
 
 <template>
   <div>
-    <h1>Sou o Componente Users.index</h1>
+    <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Usuários</h2>
   </div>
 </template>
