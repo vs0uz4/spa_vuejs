@@ -1,5 +1,6 @@
 import axios from 'axios'
 import localforage from 'localforage'
+import router from '@/router'
 import { bus } from '@/plugins/event-bus'
 
 const http = axios.create({
@@ -22,6 +23,14 @@ const interceptResponseError = (error) => {
   let message = error.message
 
   if (error.response != null) {
+    /**
+    * Verificação de Token Expirado ou Inválido
+    */
+    if (error.response.status === 403) {
+      localforage.removeItem('token').then(() => {
+        router.push({ name: 'auth.index', query: { expired: true } })
+      })
+    }
     message = error.response.data.error
   }
 
