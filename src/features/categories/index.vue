@@ -58,6 +58,9 @@
     },
 
     computed: {
+      hasCategories () {
+        return this.list.length > 0
+      },
       shouldDisplayNew () {
         return this.$route.name === 'categories.index'
       },
@@ -79,10 +82,16 @@
         </div>
       </div>
     </h2>
+
     <transition name="slide-fade">
       <router-view @update-category-list="updateList"></router-view>
     </transition>
-    <div class="row">
+
+    <div class="no-categories" v-show="!hasCategories">
+      <h4>Não Existem Categorias a Serem Exibidas</h4>
+    </div>
+
+    <div class="row" v-show="hasCategories">
       <div class="col-sm-6 col-md-4" v-for="category in list" :key="category.id">
         <div class="thumbnail">
           <div class="caption">
@@ -99,6 +108,10 @@
 </template>
 
 <style scoped>
+.no-categories {
+  padding: 35px 0 35px 0;
+}
+
 .slide-fade-enter-active {
   transition: all .2s ease;
 }
