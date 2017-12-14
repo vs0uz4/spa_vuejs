@@ -54,7 +54,7 @@
           </div>
 
           <div class="text-right">
-            <button class="btn btn-primary btn-sm" type="submit">Sign In</button>
+            <button class="btn btn-primary btn-sm" type="submit"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Sign In</button>
           </div>
         </form>
       </div>
