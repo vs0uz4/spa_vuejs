@@ -1,37 +1,20 @@
 <script>
-  import http from '@/service/http'
-  import findIndex from 'lodash/findIndex'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     name: 'Categories',
-    data () {
-      return {
-        list: []
-      }
-    },
 
-    async mounted () {
-      const response = await http.get('/categoria')
-
-      if (response != null) {
-        this.list = response.data.categories
-      }
+    mounted () {
+      this.fetch()
     },
 
     methods: {
+      ...mapActions('categories', ['fetch', 'update', 'remove']),
       navigation (route) {
         this.$router.push({ name: route })
       },
       updateList (obj) {
-        const { category } = obj
-        const index = findIndex(this.list, { id: category.id })
-
-        if (index > -1) {
-          this.list[index].name = category.name
-          return false
-        }
-
-        this.list.unshift(category)
+        this.update(obj.category)
       },
       askRemove (category) {
         const msg = `Tem Certeza que Deseja Remover ${category.name}?`
@@ -42,22 +25,17 @@
         }
       },
       async doRemove (id) {
-        const response = await http.delete(`/categoria/${id}`)
-        const { message } = response.data
-        const index = findIndex(this.list, { id })
-
-        if (index > -1) {
-          this.list.splice(index, 1)
-        }
-
-        this.$bus.$emit('display-alert', {
-          type: 'success',
-          message: message
+        this.remove({ id }).then((message) => {
+          this.$bus.$emit('display-alert', {
+            type: 'success',
+            message
+          })
         })
       }
     },
 
     computed: {
+      ...mapState('categories', ['list']),
       hasCategories () {
         return this.list.length > 0
       },
