@@ -1,15 +1,19 @@
 <script>
   import localforage from 'localforage'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     computed: {
+      ...mapGetters(['email']),
       shouldDisplayNavigation () {
         return this.$route.name !== 'auth.index'
       }
     },
     methods: {
+      ...mapActions(['removeToken']),
       singoff () {
         localforage.removeItem('token').then(() => {
+          this.removeToken()
           this.$router.push({ name: 'auth.index' })
         })
       }
@@ -42,6 +46,9 @@
             <li><router-link :to="{ name: 'users.index' }">Usuários</router-link></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li>
+              <v-gravatar class="img-rounded" :email="email" :size="40" default-img="mm" alt="Avatar"/>
+            </li>
             <li><a href="#" @click.prevent="singoff">Sair</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -49,3 +56,15 @@
     </nav>
   </div>
 </template>
+
+<style scoped>
+.navbar-right > li {
+  line-height: 50px;
+}
+
+.navbar-right > li > img {
+  vertical-align: middle;
+  margin-top: -2px;
+}
+</style>
+

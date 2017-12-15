@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
+import Gravatar from 'vue-gravatar'
 import TheContainer from './the-container'
 import router from './router'
 import store from './store'
@@ -12,6 +13,8 @@ Vue.config.productionTip = false
 
 Vue.use(Vuelidate)
 Vue.use(eventBus)
+
+Vue.component('v-gravatar', Gravatar)
 
 /* eslint-disable no-new */
 new Vue({

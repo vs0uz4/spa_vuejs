@@ -1,6 +1,7 @@
 <script>
   import http from '@/service/http'
   import localforage from 'localforage'
+  import { mapActions } from 'vuex'
 
   export default {
     name: 'Authentication',
@@ -21,6 +22,7 @@
     },
 
     methods: {
+      ...mapActions(['setToken']),
       async singin () {
         try {
           const { email, password } = this
@@ -28,6 +30,7 @@
           const { token } = response.data
 
           localforage.setItem('token', token).then(() => {
+            this.setToken({token})
             this.$router.push({ name: 'index' })
           })
         } catch (error) {

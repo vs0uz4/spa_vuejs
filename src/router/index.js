@@ -9,6 +9,8 @@ import users from '@app/users/routes'
 import dashboard from '@app/dashboard/routes'
 import categories from '@app/categories/routes'
 
+import store from '@/store'
+
 const routes = [
   ...auth,
   ...users,
@@ -25,6 +27,7 @@ const router = new Router({
 
 const checkAuth = async (to, from, next) => {
   const token = await localforage.getItem('token')
+  store.dispatch('setToken', { token })
 
   if (to.name !== 'auth.index' && token === null) {
     next({ name: 'auth.index' })
