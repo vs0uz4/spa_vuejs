@@ -14,9 +14,13 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   modules,
   state: {
-    token: null
+    token: null,
+    isSearching: false
   },
   actions: {
+    setSearching ({ commit }, obj) {
+      commit('SET_SEARCHING', obj)
+    },
     setToken ({ commit }, obj) {
       commit('SET_TOKEN', obj)
     },
@@ -25,6 +29,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    SET_SEARCHING (state, obj) {
+      state.isSearching = obj.isSearching
+    },
     SET_TOKEN (state, obj) {
       state.token = obj.token
     },
@@ -38,6 +45,14 @@ export default new Vuex.Store({
       if (token !== null) {
         const decoded = decode(token)
         return decoded.email
+      }
+      return ''
+    },
+    expiration (state) {
+      const { token } = state
+      if (token !== null) {
+        const decoded = decode(token)
+        return decoded.exp
       }
       return ''
     }
