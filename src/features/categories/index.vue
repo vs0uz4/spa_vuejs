@@ -9,12 +9,9 @@
     },
 
     methods: {
-      ...mapActions('categories', ['fetch', 'update', 'remove']),
+      ...mapActions('categories', ['fetch', 'remove']),
       navigation (route) {
         this.$router.push({ name: route })
-      },
-      updateList (obj) {
-        this.update(obj.category)
       },
       askRemove (category) {
         const msg = `Tem Certeza que Deseja Remover ${category.name}?`
@@ -63,7 +60,7 @@
     </h2>
 
     <transition name="slide-fade">
-      <router-view @update-category-list="updateList"></router-view>
+      <router-view></router-view>
     </transition>
 
     <div class="text-center" v-show="isSearching">
@@ -76,7 +73,7 @@
 
     <div class="row" v-show="hasCategories">
       <div class="col-sm-6 col-md-4" v-for="category in list" :key="category.id">
-        <div class="thumbnail">
+        <div class="thumbnail minimal-height">
           <div class="caption">
             <h3>{{ category.name }}</h3>
             <p class="text-right">
@@ -91,6 +88,10 @@
 </template>
 
 <style scoped>
+.minimal-height{
+  min-height: 120px;
+}
+
 .no-categories {
   padding: 35px 0 35px 0;
 }
